@@ -1,0 +1,48 @@
+.tableHead1 {
+ background-color: #F3C623;
+ color: black;
+}
+
+.tableHead2 {
+ background-color: #347928;
+ color: white;
+}
+
+.buttonColor {
+ background-color: #347928;
+ color: white;
+}
+
+.buttonColor:hover {
+ background-color: #04AA6D;
+ color: white;
+}
+
+.head {
+ background-color: #347928;
+}
+
+.imgLogo {
+ width: 50px;
+ height: auto;
+}
+
+.headTitle {
+ font-size: 1.5rem;
+ font-weight: 600;
+ color: white;
+}
+
+.border-bottom {
+ border-color: #e0e0e0;
+}
+
+.headButton {
+ background-color: #F3C623;
+ color: black;
+}
+
+.headButton:hover {
+ background-color: #C80036;
+ color: white;
+}

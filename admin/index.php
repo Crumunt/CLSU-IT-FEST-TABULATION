@@ -3,7 +3,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -380,16 +380,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="text-center mb-4">
             <a href="production.php" class="btn btn-success btn-lg mb-3">Get Best in Production</a>
             <a href="uniform.php" class="btn btn-success btn-lg mb-3">Get Best in Uniform</a>
-            <a href="casual.php" class="btn btn-success btn-lg mb-3">Get Best in Casual</a>
-            <a href="formal.php" class="btn btn-success btn-lg mb-3">Get Best in Formal</a>
+            <a href="casual.php" class="btn btn-success btn-lg mb-3">Get Best in Sports</a>
+            <!-- <a href="formal.php" class="btn btn-success btn-lg mb-3">Get Best in Formal</a> -->
         </div>
         <div class="text-center">
-            <a href="finalthree.php" class="btn btn-warning btn-lg mb-3">Get Best Final Three</a>
+            <!-- <a href="finalthree.php" class="btn btn-warning btn-lg mb-3">Get Best Final Three</a> -->
             <a href="grand.php" class="btn btn-warning btn-lg mb-3">Get Grand Winner</a>
         </div>
     </div>
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="header">
             <h1>Finalist Selection System</h1>
             <p>Select 3 finalists for each gender category</p>
@@ -487,7 +487,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
             </div>
         </form>
-    </div>
+    </div> -->
 
 
     <script type="module" src="../bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -3,7 +3,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -12,22 +12,7 @@ try {
     die("Could not connect to the database $dbname :" . $e->getMessage());
 }
 
-$query = "
-    SELECT 
-        gender, 
-        participant_id, 
-        participant_name, 
-        avg_ranking,
-        total_score,
-        college,
-        participant_num,
-        DENSE_RANK() OVER (PARTITION BY gender ORDER BY avg_ranking) AS rank
-    FROM final_3_rankings
-    WHERE gender IN ('Male', 'Female')
-    ORDER BY 
-        gender, 
-        avg_ranking; 
-";
+$query = "SELECT * FROM top_3_participants WHERE gender IN ('Male', 'Female') ORDER BY ranking_within_gender;";
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
@@ -81,10 +66,10 @@ foreach ($results as $row) {
                     <thead class="tableHead text-center">
                         <tr>
                             <th>#</th>
-                            <th>College</th>
+                            <th>Element</th>
                             <th>Participant Name</th>
                             <!-- <th>Total Score</th> -->
-                            <th>Average Ranking</th>
+                            <th>Average Total Score</th>
                             <th>Place</th>
                         </tr>
                     </thead>
@@ -92,12 +77,12 @@ foreach ($results as $row) {
                         <?php if (!empty($femaleResults)): ?>
                             <?php foreach ($femaleResults as $row): ?>
                                 <tr>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_num']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['college']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_name']) ?></td>
-                                    <!-- <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['total_score'] / 5) ?></td> -->
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['avg_ranking']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['rank']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_num']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['college']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_name']) ?></td>
+                                    <!-- <td class="<?= $row['rranking_within_genderank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['total_score'] / 5) ?></td> -->
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['avg_total_score']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['ranking_within_gender']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -120,10 +105,10 @@ foreach ($results as $row) {
                     <thead class="tableHead text-center">
                         <tr>
                             <th>#</th>
-                            <th>College</th>
+                            <th>Element</th>
                             <th>Participant</th>
                             <!-- <th>Total Score</th> -->
-                            <th>Average Ranking</th>
+                            <th>Average Total Score</th>
                             <th>Place</th>
                         </tr>
                     </thead>
@@ -131,12 +116,12 @@ foreach ($results as $row) {
                         <?php if (!empty($maleResults)): ?>
                             <?php foreach ($maleResults as $row): ?>
                                 <tr>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_num']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['college']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_name']) ?></td>
-                                    <!-- <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['total_score'] / 5) ?></td> -->
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['avg_ranking']) ?></td>
-                                    <td class="<?= $row['rank'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['rank']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_num']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['college']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['participant_name']) ?></td>
+                                    <!-- <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['total_score'] / 5) ?></td> -->
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['avg_total_score']) ?></td>
+                                    <td class="<?= $row['ranking_within_gender'] == 1 ? 'big-cell' : '' ?>"><?= htmlspecialchars($row['ranking_within_gender']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

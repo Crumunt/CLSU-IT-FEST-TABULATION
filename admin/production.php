@@ -3,7 +3,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -44,7 +44,7 @@ foreach ($results as $row) {
 
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Best in Production</h2>
+        <h2 class="text-center mb-4">Best in Production Number</h2>
 
         <!-- Female Participants Table -->
         <div class="card mb-4">
@@ -56,8 +56,9 @@ foreach ($results as $row) {
                     <thead class="tableHead text-center">
                         <tr>
                             <th>Participant Number</th>
+                            <th>Element</th>
                             <th>Participant Name</th>
-                            <th>Total Score</th>
+                            <th>Average Total Score</th>
                             <th>Rank</th>
                         </tr>
                     </thead>
@@ -66,6 +67,7 @@ foreach ($results as $row) {
                             <?php foreach ($femaleResults as $row): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($row['participant_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['college']) ?></td>
                                     <td><?= htmlspecialchars($row['participant_name']) ?></td>
                                     <td><?= htmlspecialchars(number_format($row['avg_total_score'], 2)) ?></td>
                                     <td><?= htmlspecialchars($row['gender_rank']) ?></td>
@@ -91,8 +93,9 @@ foreach ($results as $row) {
                     <thead class="tableHead text-center">
                         <tr>
                             <th>Participant Number</th>
+                            <th>Element</th>
                             <th>Participant Name</th>
-                            <th>Total Score</th>
+                            <th>Average Total Score</th>
                             <th>Rank</th>
                         </tr>
                     </thead>
@@ -101,6 +104,7 @@ foreach ($results as $row) {
                             <?php foreach ($maleResults as $row): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($row['participant_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['college']) ?></td>
                                     <td><?= htmlspecialchars($row['participant_name']) ?></td>
                                     <td><?= htmlspecialchars(number_format($row['avg_total_score'], 2)) ?></td>
                                     <td><?= htmlspecialchars($row['gender_rank']) ?></td>

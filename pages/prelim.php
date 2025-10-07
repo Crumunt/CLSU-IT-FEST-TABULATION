@@ -4,7 +4,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -14,7 +14,7 @@ try {
 }
 
 // Fetch participants and categories
-$participants = $pdo->query("SELECT * FROM participants")->fetchAll(PDO::FETCH_ASSOC);
+$participants = $pdo->query("SELECT * FROM participants ORDER BY gender DESC")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query("SELECT * FROM categories WHERE category_id IN (5, 6, 7, 8)")->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch existing scores for the logged-in judge
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="submitModalLabel">Finalize Preliminary Stage</h5>
+                            <h5 class="modal-title" id="submitModalLabel">Finalize Scores</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -101,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                 <div>
 
                     <div class="d-flex flex-row justify-content-between align-items-center pb-3">
-                        <h5 class="mb-0">Preliminary Scores Finalization</h5>
-                        <button type="button" class="buttonColor btn" data-bs-toggle="modal" data-bs-target="#submitModal">Finalize Preliminary Stage</button>
+                        <h5 class="mb-0">Scores Finalization</h5>
+                        <button type="button" class="buttonColor btn" data-bs-toggle="modal" data-bs-target="#submitModal">Finalize Scores</button>
                     </div>
 
                     <table class="table table-bordered table-hover">
@@ -112,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                             </tr>
                             <tr>
                                 <th>#</th>
-                                <th>Participant</th>
-                                <th>College</th>
+                                <th>Participant Name</th>
+                                <th>Element</th>
                                 <th>Gender</th>
                                 <th>Beauty of Face (40)</th>
                                 <th>Stage Projection (30)</th>
@@ -133,8 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                                         </tr>
                                         <tr>
                                             <th>#</th>
-                                            <th>Participant</th>
-                                            <th>College</th>
+                                            <th>Participant Name</th>
+                                            <th>Element</th>
                                             <th>Gender</th>
                                             <th>Beauty of Face (40)</th>
                                             <th>Stage Projection (30)</th>

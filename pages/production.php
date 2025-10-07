@@ -4,7 +4,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -14,7 +14,7 @@ try {
 }
 
 // Fetch participants and categories
-$participants = $pdo->query("SELECT * FROM participants")->fetchAll(PDO::FETCH_ASSOC);
+$participants = $pdo->query("SELECT * FROM participants ORDER BY participant_num ASC")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query("SELECT * FROM categories WHERE category_id IN (1, 5, 6, 7, 8)")->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch existing scores for the logged-in judge
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                                     VALUES (?, ?, ?, ?) 
                                     ON DUPLICATE KEY UPDATE score = VALUES(score)");
             $stmt->execute([$judge_id, $participant_id, $category_id, $score]);
-            header("Location: uniform.php");
+            header("Location: sports.php");
         }
     }
     echo "<div class='alert alert-success text-center'>Scores submitted successfully!</div>";
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                                         <h6 class="mb-3">Best in Production</h6>
                                         <div class="score-input-group">
                                             <label for="production">Production (Max: 15)</label>
-                                            <input type="number" class="form-control" id="production" min="0" max="15"
+                                            <input type="number" class="form-control" id="production" min="1" max="15"
                                                 step="1" placeholder="Enter score">
                                         </div>
                                     </div>
@@ -205,31 +205,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
 
                                     <!-- Preliminary Criteria -->
                                     <div class="criteria-section">
-                                        <h6 class="mb-3">Preliminary Criteria</h6>
+                                        <h6 class="mb-3">Ramp Walk</h6>
 
                                         <div class="score-input-group">
-                                            <label for="beautyOfFace">Beauty of Face (Max: 40)</label>
-                                            <input type="number" class="form-control" id="beautyOfFace" min="0" max="40"
+                                            <label for="beautyOfFace">Confidence and Stage Presence (Max: 10)</label>
+                                            <input type="number" class="form-control" id="beautyOfFace" min="1" max="10"
                                                 step="1" placeholder="Enter score">
                                         </div>
 
                                         <div class="score-input-group">
-                                            <label for="stageProjection">Stage Projection (Max: 30)</label>
-                                            <input type="number" class="form-control" id="stageProjection" min="0"
-                                                max="30" step="1" placeholder="Enter score">
-                                        </div>
-
-                                        <div class="score-input-group">
-                                            <label for="abilityToAnswer">Ability to Answer (Max: 20)</label>
-                                            <input type="number" class="form-control" id="abilityToAnswer" min="0"
-                                                max="20" step="1" placeholder="Enter score">
-                                        </div>
-
-                                        <div class="score-input-group">
-                                            <label for="overallAppeal">Overall Appeal (Max: 10)</label>
-                                            <input type="number" class="form-control" id="overallAppeal" min="0"
+                                            <label for="stageProjection">Posture, Poise, and Bearing (Max: 10)</label>
+                                            <input type="number" class="form-control" id="stageProjection" min="1"
                                                 max="10" step="1" placeholder="Enter score">
                                         </div>
+
+                                        <div class="score-input-group">
+                                            <label for="abilityToAnswer">Audience Impact and Overall Projection (Max: 10)</label>
+                                            <input type="number" class="form-control" id="abilityToAnswer" min="1"
+                                                max="10" step="1" placeholder="Enter score">
+                                        </div>
+
                                     </div>
 
                                     <div class="d-flex justify-content-between mt-4">
@@ -263,11 +258,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <table class="table table-bordered table-hover summary-table">
                             <thead class="table-light text-center">
                                 <tr>
-                                    <th>#</th>
+                                    <th>Participant Number</th>
                                     <th>Participant</th>
                                     <th>Element</th>
                                     <th>Gender</th>
-                                    <th>Production (15)</th>
+                                    <th>Best in Production (15)</th>
                                 </tr>
                             </thead>
                             <tbody id="summaryProductionTable"></tbody>
@@ -279,10 +274,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <table class="table table-bordered table-hover summary-table">
                             <thead class="table-light text-center">
                                 <tr>
-                                    <th>Face (40)</th>
-                                    <th>Projection (30)</th>
-                                    <th>Answer (20)</th>
-                                    <th>Appeal (10)</th>
+                                    <th>Confidence and Stage Presence (Max: 10)</th>
+                                    <th>Posture, Poise, and Bearing (Max: 10)</th>
+                                    <th>Audience Impact and Overall Projection (Max: 10)</th>
                                 </tr>
                             </thead>
                             <tbody id="summaryPrelimTable"></tbody>
@@ -348,8 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                 production: <?= isset($scores[1]) ? $scores[1] : 'null' ?>,
                 beautyOfFace: <?= isset($scores[5]) ? $scores[5] : 'null' ?>,
                 stageProjection: <?= isset($scores[6]) ? $scores[6] : 'null' ?>,
-                abilityToAnswer: <?= isset($scores[7]) ? $scores[7] : 'null' ?>,
-                overallAppeal: <?= isset($scores[8]) ? $scores[8] : 'null' ?>
+                abilityToAnswer: <?= isset($scores[7]) ? $scores[7] : 'null' ?>
             };
         <?php endforeach; ?>
     <?php endif; ?>
@@ -363,8 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
             production: null,
             beautyOfFace: null,
             stageProjection: null,
-            abilityToAnswer: null,
-            overallAppeal: null
+            abilityToAnswer: null
         };
     });
 
@@ -389,7 +381,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
         document.getElementById('beautyOfFace').value = savedScores.beautyOfFace || '';
         document.getElementById('stageProjection').value = savedScores.stageProjection || '';
         document.getElementById('abilityToAnswer').value = savedScores.abilityToAnswer || '';
-        document.getElementById('overallAppeal').value = savedScores.overallAppeal || '';
 
         updateProgress();
 
@@ -403,8 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
             production: document.getElementById('production').value || null,
             beautyOfFace: document.getElementById('beautyOfFace').value || null,
             stageProjection: document.getElementById('stageProjection').value || null,
-            abilityToAnswer: document.getElementById('abilityToAnswer').value || null,
-            overallAppeal: document.getElementById('overallAppeal').value || null
+            abilityToAnswer: document.getElementById('abilityToAnswer').value || null
         };
     }
 
@@ -428,8 +418,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
 
             // Add gender divider if needed
             if (lastGender && lastGender !== participant.gender) {
-                const dividerRow1 = `<tr class="table-secondary"><td colspan="5" class="text-center fw-bold">Male Candidates</td></tr>`;
-                const dividerRow2 = `<tr class="table-secondary"><td colspan="4" class="text-center fw-bold">Male Candidates</td></tr>`;
+                const dividerRow1 = `<tr class="table-secondary"><td colspan="5" class="text-center fw-bold">Female Candidates</td></tr>`;
+                const dividerRow2 = `<tr class="table-secondary"><td colspan="4" class="text-center fw-bold">Female Candidates</td></tr>`;
                 productionTableBody.innerHTML += dividerRow1;
                 prelimTableBody.innerHTML += dividerRow2;
             }
@@ -445,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][1]" 
-                                   min="0" max="15" step="1" 
+                                   min="1" max="15" step="1" 
                                    value="${score.production || ''}" 
                                    placeholder="0">
                         </td>
@@ -459,29 +449,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][5]" 
-                                   min="0" max="40" step="1" 
+                                   min="1" max="10" step="1" 
                                    value="${score.beautyOfFace || ''}" 
                                    placeholder="0">
                         </td>
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][6]" 
-                                   min="0" max="30" step="1" 
+                                   min="1" max="10" step="1" 
                                    value="${score.stageProjection || ''}" 
                                    placeholder="0">
                         </td>
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][7]" 
-                                   min="0" max="20" step="1" 
+                                   min="1" max="10" step="1" 
                                    value="${score.abilityToAnswer || ''}" 
-                                   placeholder="0">
-                        </td>
-                        <td>
-                            <input type="number" class="form-control form-control-sm" 
-                                   name="scores[${participant.id}][8]" 
-                                   min="0" max="10" step="1" 
-                                   value="${score.overallAppeal || ''}" 
                                    placeholder="0">
                         </td>
                     </tr>

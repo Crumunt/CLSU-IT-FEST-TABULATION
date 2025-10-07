@@ -4,7 +4,7 @@ $host = 'localhost';
 $dbname = 'tabulation';
 $username = 'root';
 $password = '';
-$port = '3306';     
+$port = '3307';     
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                                         <h6 class="mb-3">Best in Formal Attire</h6>
                                         <div class="score-input-group">
                                             <label for="formal">Formal (Max: 15)</label>
-                                            <input type="number" class="form-control" id="formal" min="0" max="15"
+                                            <input type="number" class="form-control" id="formal" min="1" max="15"
                                                 step="1" placeholder="Enter score">
                                         </div>
                                     </div>
@@ -209,25 +209,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
 
                                         <div class="score-input-group">
                                             <label for="beautyOfFace">Beauty of Face (Max: 40)</label>
-                                            <input type="number" class="form-control" id="beautyOfFace" min="0" max="40"
+                                            <input type="number" class="form-control" id="beautyOfFace" min="1" max="40"
                                                 step="1" placeholder="Enter score">
                                         </div>
 
                                         <div class="score-input-group">
                                             <label for="stageProjection">Stage Projection (Max: 30)</label>
-                                            <input type="number" class="form-control" id="stageProjection" min="0"
+                                            <input type="number" class="form-control" id="stageProjection" min="1"
                                                 max="30" step="1" placeholder="Enter score">
                                         </div>
 
                                         <div class="score-input-group">
                                             <label for="abilityToAnswer">Ability to Answer (Max: 20)</label>
-                                            <input type="number" class="form-control" id="abilityToAnswer" min="0"
+                                            <input type="number" class="form-control" id="abilityToAnswer" min="1"
                                                 max="20" step="1" placeholder="Enter score">
                                         </div>
 
                                         <div class="score-input-group">
                                             <label for="overallAppeal">Overall Appeal (Max: 10)</label>
-                                            <input type="number" class="form-control" id="overallAppeal" min="0"
+                                            <input type="number" class="form-control" id="overallAppeal" min="1"
                                                 max="10" step="1" placeholder="Enter score">
                                         </div>
                                     </div>
@@ -445,7 +445,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][4]" 
-                                   min="0" max="15" step="1" 
+                                   min="1" max="15" step="1" 
                                    value="${score.formal || ''}" 
                                    placeholder="0">
                         </td>
@@ -459,28 +459,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scores'])) {
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][5]" 
-                                   min="0" max="40" step="1" 
+                                   min="1" max="40" step="1" 
                                    value="${score.beautyOfFace || ''}" 
                                    placeholder="0">
                         </td>
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][6]" 
-                                   min="0" max="30" step="1" 
+                                   min="1" max="30" step="1" 
                                    value="${score.stageProjection || ''}" 
                                    placeholder="0">
                         </td>
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][7]" 
-                                   min="0" max="20" step="1" 
+                                   min="1" max="20" step="1" 
                                    value="${score.abilityToAnswer || ''}" 
                                    placeholder="0">
                         </td>
                         <td>
                             <input type="number" class="form-control form-control-sm" 
                                    name="scores[${participant.id}][8]" 
-                                   min="0" max="10" step="1" 
+                                   min="1" max="10" step="1" 
                                    value="${score.overallAppeal || ''}" 
                                    placeholder="0">
                         </td>
